@@ -25,5 +25,5 @@ CREATE TABLE Employee (
 );
 
 INSERT INTO Department (name)
-VALUES("People Support"),("Systems"),("Smart"),("Digital Services"),("Evolve"),("Applied innovation");
+VALUES("Digital Services"),("Systems"),("Smart"),("Evolve"),("People Support"),("Applied innovation");
 
