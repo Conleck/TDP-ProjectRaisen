@@ -5,6 +5,13 @@ USE employees;
 DROP TABLE IF EXISTS Employee;
 DROP TABLE IF EXISTS Department;
 
+
+CREATE TABLE Department (
+	id int AUTO_INCREMENT PRIMARY KEY NOT NULL,
+	department_name varchar(30) NOT NULL,
+	head_of_department_id int NULL
+);
+
 CREATE TABLE Employee (
 	id int AUTO_INCREMENT PRIMARY KEY,
 	department_id int NOT NULL,
@@ -17,9 +24,3 @@ CREATE TABLE Employee (
 	FOREIGN KEY (department_id) REFERENCES Department(id)
 );
 
-CREATE TABLE Department (
-	id int AUTO_INCREMENT PRIMARY KEY NOT NULL,
-	department_name varchar(30) NOT NULL,
-	head_of_department_id int NULL,
-	FOREIGN KEY (head_of_department_id) REFERENCES Employee(id)
-);
