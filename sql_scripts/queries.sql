@@ -31,7 +31,7 @@ DELIMITER ;
 
 
 DELIMITER ^^
-CREATE PROCEDURE generateReport (department)
+CREATE PROCEDURE generateReport (department VARCHAR(30))
 BEGIN 
 	IF department IN (SELECT name from Department) THEN
 	SELECT id, first_name, last_name FROM Employee where department = department;
