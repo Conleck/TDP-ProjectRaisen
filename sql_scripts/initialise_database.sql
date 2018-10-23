@@ -20,6 +20,6 @@ CREATE TABLE Employee (
 CREATE TABLE Department (
 	id int AUTO_INCREMENT PRIMARY KEY NOT NULL,
 	department_name varchar(30) NOT NULL,
-    	head_of_department_id int NOT NULL,
+    	head_of_department_id int NULL,
     	FOREIGN KEY (head_of_department_id) REFERENCES Employee(id)
 );
