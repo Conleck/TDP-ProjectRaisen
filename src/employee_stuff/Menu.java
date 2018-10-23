@@ -19,6 +19,9 @@ public class Menu {
 		System.out.print("\nPlease enter the employee's last name: ");
 		String lName = scan.nextLine();
 		
+		System.out.print("\nPlease enter the employee's address: ");
+		String address = scan.nextLine();
+		
 		System.out.print("\nPlease enter the employee's National Insurance No.: ");
 		String niNo = scan.nextLine();
 		
@@ -28,48 +31,53 @@ public class Menu {
 		System.out.print("\nPlease enter the employee's starting salary: ");
 		float salaryStart = Float.parseFloat(scan.nextLine());
 		
-		System.out.print("\nPlease enter their employee number: ");
-		int empNo = Integer.parseInt(scan.nextLine());
+		
+		System.out.println("\nPlease chose from one of the following departments: "
+				+ "\n  1 - Digital Services"
+				+ "\n  2 - Systems"
+				+ "\n  3 - Smart"
+				+ "\n  4 - Evolve\n");
+		
+		int departmentID = Integer.parseInt(scan.nextLine());
+		String department = "";
+		
+		switch(departmentID) {
+			case(1): department = "Digital Services"; break;
+			case(2): department = "Systems"; break;
+			case(3): department = "Smart"; break;
+			case(4): department = "Evolve"; break;
+			default: System.out.println("Invalid Department... Exiting program."); System.exit(0);
+		}
 		
 		String confirm = String.format("\n\nIs the following information all correct?:"
 				+ "\n\nName:                   %s %s"
+				+ "\n\nAddress:              %s"
 				+ "\nNational Insurance No:  %s"
 				+ "\nBank Account No:        %s"
 				+ "\nStarting Salary:        $%.2f"
-				+ "\nEmployee No:            %d"
+				+ "\nDepartment:             %s"
 				+ "\n\nPlease enter 'y' to continue: ",
-				fName, lName, niNo, iban, salaryStart, empNo);
+				fName, lName, address, niNo, iban, salaryStart, department);
 		
 		System.out.print(confirm);
 		
 		String input = scan.nextLine();
 		
-		if(!input.toLowerCase().equals("y")) {
-			System.out.println(input);
+		if(input.toLowerCase().equals("y")) {
+			
+			Employee newEmployee = new Employee(1, salaryStart, fName, lName, niNo, iban, address, departmentID);
+			
+			try {
+				Connection c = DriverManager.getConnection("jdbc:mysql://localhost/world","conor", "password");
+				newEmployee.sendToDb(c);
+			}catch(Exception e) {
+				System.out.println("Failed to connect to db: " + e);
+			}
+			
+		}else {
 			System.exit(0);
 		}
 		
-		System.out.println("Congratz nerd ur gay");
 		
-		
-
-		/*
-		try {
-			Class driver = Class.forName("com.mysql.jdbc.Driver");
-			Connection c = 
-			      DriverManager.getConnection("jdbc:mysql://localhost/world", 
-			            "conor", "password");
-			Statement st = c.createStatement();
-			ResultSet rs = st.executeQuery(
-			      "SELECT name, district FROM city ORDER BY RAND() LIMIT 5");
-			while(rs.next()){
-			   String out = String.format("%s is in %s.", 
-			   rs.getString("name"), rs.getString("district"));
-			   System.out.println(out);
-			}
-		}catch(Exception e) {
-			System.out.println(e);
-		}
-		*/
 	}
 }

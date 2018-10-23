@@ -1,12 +1,20 @@
 package employee_stuff;
 
+import java.sql.*;
+
 public class Employee implements IPlayable{
 	private int number;
+	private int departmentID;
 	private float salary;
-	private String name;
+	private String fName;
+	private String lName;
+	private String niNo;
+	private String bankNo;
+	private String address;
 	private final float MIN_SALARY = 7000.00f;
 	
 	public Employee() {
+		
 	}
 	
 	
@@ -20,9 +28,13 @@ public class Employee implements IPlayable{
 		this.salary = salary;
 	}
 	
-	public Employee(int number, float salary, String name) {
+	public Employee(int number, float salary, String fName, String lName, String niNo, String bankNo, String address, int departmentID) {
 		this(number, salary);
-		this.name = name;
+		this.setfName(fName);
+		this.niNo = niNo;
+		this.bankNo = bankNo;
+		this.address = address;
+		this.departmentID = departmentID;
 	}
 	
 	@Override
@@ -30,7 +42,8 @@ public class Employee implements IPlayable{
 		if(obj instanceof Employee) {
 			Employee emp = (Employee) obj;
 			return this.getNumber() == emp.getNumber()
-					&& this.getName() == emp.getName()
+					&& this.getfName() == emp.getfName()
+					&& this.getlName() == emp.getlName()
 					&& this.getSalary() == emp.getSalary();
 		} else return false;
 	}
@@ -40,13 +53,26 @@ public class Employee implements IPlayable{
 		String message =
 				String.format("Employee %d: %s, $%.2f. "
 						+ "Monthly gross pay: $%.2f.", 
-						getNumber(), getName(), getSalary(), calcPay());
+						getNumber(), getfName() + getlName(), getSalary(), calcPay());
 		return message;
 	}
 	
 	public float calcPay() {
 		return getSalary()/12;
 	}
+	
+	public void sendToDb(Connection c) {
+		try {
+			Statement st = c.createStatement();
+			st.executeUpdate(String.format(
+					"INSERT INTO Employee (department_id, first_name, last_name, address, nin, iban, starting_salary) "
+					+ "VALUES(%d, %s, %s, %s, %s, %s, %.2f)",
+					getDepartmentID(), getfName(), getlName(), getAddress(), getNiNo(), getBankNo(), getSalary()));
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+	}
+	
 
 	public int getNumber() {
 		return number;
@@ -75,12 +101,64 @@ public class Employee implements IPlayable{
 		}
 	}
 
-	public String getName() {
-		return name;
+
+	private String getNiNo() {
+		return niNo;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+
+	private void setNiNo(String niNo) {
+		this.niNo = niNo;
+	}
+
+
+	private String getBankNo() {
+		return bankNo;
+	}
+
+
+	private void setBankNo(String bankNo) {
+		this.bankNo = bankNo;
+	}
+
+
+	private String getAddress() {
+		return address;
+	}
+
+
+	private void setAddress(String address) {
+		this.address = address;
+	}
+
+
+	private int getDepartmentID() {
+		return departmentID;
+	}
+
+
+	private void setDepartmentID(int departmentID) {
+		this.departmentID = departmentID;
+	}
+
+
+	private String getfName() {
+		return fName;
+	}
+
+
+	private void setfName(String fName) {
+		this.fName = fName;
+	}
+
+
+	private String getlName() {
+		return lName;
+	}
+
+
+	private void setlName(String lName) {
+		this.lName = lName;
 	}
 }
 
