@@ -68,7 +68,7 @@ public class Menu {
 			Employee newEmployee = new Employee(1, salaryStart, fName, lName, niNo, iban, address, departmentID);
 			
 			try {
-				Connection c = DriverManager.getConnection("jdbc:mysql://localhost/world","conor", "password");
+				Connection c = DriverManager.getConnection("jdbc:mysql://localhost/employees","conor", "password");
 				newEmployee.sendToDb(c);
 			}catch(Exception e) {
 				System.out.println("Failed to connect to db: " + e);

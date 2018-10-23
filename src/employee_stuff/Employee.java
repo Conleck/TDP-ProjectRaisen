@@ -32,6 +32,7 @@ public class Employee implements IPlayable{
 		this(number, salary);
 		this.setfName(fName);
 		this.niNo = niNo;
+		this.lName = lName;
 		this.bankNo = bankNo;
 		this.address = address;
 		this.departmentID = departmentID;
@@ -64,10 +65,11 @@ public class Employee implements IPlayable{
 	public void sendToDb(Connection c) {
 		try {
 			Statement st = c.createStatement();
-			st.executeUpdate(String.format(
-					"INSERT INTO Employee (department_id, first_name, last_name, address, nin, iban, starting_salary) "
-					+ "VALUES(%d, %s, %s, %s, %s, %s, %.2f)",
-					getDepartmentID(), getfName(), getlName(), getAddress(), getNiNo(), getBankNo(), getSalary()));
+			String query = String.format(
+					"INSERT INTO Employee(department_id, first_name, last_name, address, nin, iban, starting_salary) "
+					+ "VALUES(%d, \"%s\", \"%s\", \"%s\", \"%s\", \"%s\", %.2f)",
+					getDepartmentID(), getfName(), getlName(), getAddress(), getNiNo(), getBankNo(), getSalary());
+			st.executeUpdate(query);
 		}catch(Exception e) {
 			System.out.println(e);
 		}
