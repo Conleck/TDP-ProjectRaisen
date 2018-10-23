@@ -24,6 +24,6 @@ CREATE TABLE Employee (
 	FOREIGN KEY (department_id) REFERENCES Department(id)
 );
 
-INSERT INTO Department (name)
+INSERT INTO Department (department_name)
 VALUES("Digital Services"),("Systems"),("Smart"),("Evolve"),("People Support"),("Applied innovation");
 
